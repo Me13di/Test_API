@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import ttk
+
 from tkinter import filedialog
 import base64
 import requests
@@ -26,21 +28,34 @@ class ChatInterface:
         self.setup_ui()
 
     def setup_ui(self):
-        tk.Button(self.root, text="Select PDF", command=self.select_pdf).pack()
-        self.pdf_label = tk.Label(self.root, text="Pas de ¨PDF séléctionné ")
-        self.pdf_label.pack()
+         # Top Frame for the Response Text
+        top_frame = ttk.Frame(self.root)
+        top_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        self.response_text = tk.Text(top_frame, height=35, width=100)
+        self.response_text.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
-        tk.Button(self.root, text="Image", command=self.select_image).pack()
-        self.image_label = tk.Label(self.root, text="image pas selectionné")
-        self.image_label.pack()
+        # Bottom Frame for Inputs and Buttons
+        bottom_frame = ttk.Frame(self.root)
+        bottom_frame.pack(side=tk.BOTTOM, fill=tk.X)
 
-        tk.Label(self.root, text="Enter Your Prompt:").pack()
-        self.prompt_entry = tk.Text(self.root, height=2, width=80)
-        self.prompt_entry.pack()
+        # PDF Selection
+        ttk.Button(bottom_frame, text="Select PDF", command=self.select_pdf).pack(side=tk.LEFT, padx=5, pady=5)
+        self.pdf_label = ttk.Label(bottom_frame, text="Pas de PDF sélectionné")
+        self.pdf_label.pack(side=tk.LEFT, padx=5, pady=5)
 
-        tk.Button(self.root, text="Envoie la requête", command=self.send_request).pack()
-        self.response_text = tk.Text(self.root, height=35, width=100)
-        self.response_text.pack()
+        # Image Selection
+        ttk.Button(bottom_frame, text="Image", command=self.select_image).pack(side=tk.LEFT, padx=5, pady=5)
+        self.image_label = ttk.Label(bottom_frame, text="Image pas sélectionnée")
+        self.image_label.pack(side=tk.LEFT, padx=5, pady=5)
+
+        # Prompt Entry
+        ttk.Label(bottom_frame, text="Enter Your Prompt:").pack(side=tk.LEFT, padx=5, pady=5)
+        self.prompt_entry = tk.Text(bottom_frame, height=2, width=50)
+        self.prompt_entry.pack(side=tk.LEFT, padx=5, pady=5)
+
+        # Send Request Button
+        ttk.Button(bottom_frame, text="Envoie la requête", command=self.send_request).pack(side=tk.LEFT, padx=5, pady=5)
+
 
     def play_audio_from_file(self, file_path):
         playsound(file_path)
@@ -114,6 +129,8 @@ class ChatInterface:
 
             # Supprimez le fichier temporaire après que la lecture soit terminée
             os.remove(temp_file_name)
+
+     
             
         #Affichage et stockage du fil de discussion pour que l'historique soit visible et pris en compte
         self.assistant_message += "\nVous: " + user_prompt + "\nAssistant: " + new_response
@@ -129,7 +146,12 @@ class ChatInterface:
         self.pdf_path = ""
         self.pdf_label.config(text="Image non selectionné")
 
-
+    def convert_pdf_to_images(self, pdf_path):
+        document = fitz.open(pdf_path)
+        texte = ""
+        for page in document:
+            texte += page.get_text()
+        return texte
     
 # Utilisation de la classe
 root = tk.Tk()
