@@ -33,8 +33,8 @@ class ChatInterface:
         self.pdf_label.pack()
 
         tk.Button(self.root, text="Image", command=self.select_image).pack()
-        self.pdf_label = tk.Label(self.root, text="image pas selectionné ")
-        self.pdf_label.pack()
+        self.image_label = tk.Label(self.root, text="image pas selectionné")
+        self.image_label.pack()
 
         tk.Label(self.root, text="Enter Your Prompt:").pack()
         self.prompt_entry = tk.Text(self.root, height=2, width=80)
@@ -72,9 +72,9 @@ class ChatInterface:
         if self.image_path:
             model="gpt-4-vision-preview"
         else:
-            model="gpt-4-preview"
+            model="gpt-4-0613"
         print(model)
-        payload = {"model": model, "messages": self.message_history.copy(), "max_tokens": 500}
+        payload = {"model": model, "messages": self.message_history.copy(), "max_tokens": 100}
 
         if self.image_path:
             base64_image = self.encode_image(self.image_path)
@@ -106,15 +106,7 @@ class ChatInterface:
         return texte
 # Utilisation de la classe
 root = tk.Tk()
-
-# Assurez-vous que le fichier azure.tcl est dans le même répertoire que votre script Python,
-# ou fournissez le chemin complet vers le fichier.
 root.tk.call('source', 'azure.tcl')
-
-# Maintenant, définissez le thème que vous souhaitez utiliser.
-# Cela dépend de la façon dont le thème est défini dans le fichier azure.tcl.
-# Par exemple, si le thème s'appelle "azure", vous pourriez l'appliquer comme ceci :
 root.tk.call('set_theme', 'dark')  
-
 app = ChatInterface(root)
 root.mainloop()
