@@ -6,7 +6,10 @@ from tkinter import PhotoImage
 import base64
 import requests
 import fitz  # PyMuPDF
+import os 
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class ChatInterface:
     def __init__(self, root):
@@ -14,7 +17,7 @@ class ChatInterface:
         self.root.title("Interface OpenAI")
 
         # Variables d'instance
-        self.api_key = "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"
+        self.api_key = os.getenv('OPENAI_API_KEY')
         self.message_history = [{"role": "system", "content": "L'intégralité de la conversation doit être en français ,ton objectif est d'être un assistant juridique "}]
         self.assistant_message = ""
         self.image_path = ""
