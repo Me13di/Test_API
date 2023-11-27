@@ -27,7 +27,7 @@ class ChatInterface:
         self.setup_ui()
 
     def setup_ui(self):
-         # Top Frame for the Response Text
+        # Top Frame for the Response Text
         top_frame = ttk.Frame(self.root)
         top_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         self.response_text = tk.Text(top_frame, height=35, width=100)
@@ -128,8 +128,6 @@ class ChatInterface:
 
             # Supprimez le fichier temporaire après que la lecture soit terminée
             os.remove(temp_file_name)
-
-     
             
         #Affichage et stockage du fil de discussion pour que l'historique soit visible et pris en compte
         self.assistant_message += "\nVous: " + user_prompt + "\nAssistant: " + new_response
