@@ -27,32 +27,26 @@ class ChatInterface:
         self.setup_ui()
 
     def setup_ui(self):
-        # Top Frame for the Response Text
         top_frame = ttk.Frame(self.root)
         top_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         self.response_text = tk.Text(top_frame, height=35, width=100)
         self.response_text.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
-        # Bottom Frame for Inputs and Buttons
         bottom_frame = ttk.Frame(self.root)
         bottom_frame.pack(side=tk.BOTTOM, fill=tk.X)
 
-        # PDF Selection
         ttk.Button(bottom_frame, text="Selectionne ton PDF", command=self.select_pdf).pack(side=tk.LEFT, padx=5, pady=5)
         self.pdf_label = ttk.Label(bottom_frame, text="Pas de PDF sélectionné")
         self.pdf_label.pack(side=tk.LEFT, padx=5, pady=5)
 
-        # Image Selection
         ttk.Button(bottom_frame, text="Image", command=self.select_image).pack(side=tk.LEFT, padx=5, pady=5)
         self.image_label = ttk.Label(bottom_frame, text="Image pas sélectionnée")
         self.image_label.pack(side=tk.LEFT, padx=5, pady=5)
 
-        # Prompt Entry
         ttk.Label(bottom_frame, text="Entrez votre Prompt:").pack(side=tk.LEFT, padx=5, pady=5)
         self.prompt_entry = tk.Text(bottom_frame, height=2, width=50)
         self.prompt_entry.pack(side=tk.LEFT, padx=5, pady=5)
 
-        # Send Request Button
         ttk.Button(bottom_frame, text="Envoie la requête", command=self.send_request).pack(side=tk.LEFT, padx=5, pady=5)
 
 
