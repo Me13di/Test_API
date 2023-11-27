@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-
 from tkinter import filedialog
 import base64
 import requests
@@ -39,7 +38,7 @@ class ChatInterface:
         bottom_frame.pack(side=tk.BOTTOM, fill=tk.X)
 
         # PDF Selection
-        ttk.Button(bottom_frame, text="Select PDF", command=self.select_pdf).pack(side=tk.LEFT, padx=5, pady=5)
+        ttk.Button(bottom_frame, text="Selectionne ton PDF", command=self.select_pdf).pack(side=tk.LEFT, padx=5, pady=5)
         self.pdf_label = ttk.Label(bottom_frame, text="Pas de PDF sélectionné")
         self.pdf_label.pack(side=tk.LEFT, padx=5, pady=5)
 
@@ -49,7 +48,7 @@ class ChatInterface:
         self.image_label.pack(side=tk.LEFT, padx=5, pady=5)
 
         # Prompt Entry
-        ttk.Label(bottom_frame, text="Enter Your Prompt:").pack(side=tk.LEFT, padx=5, pady=5)
+        ttk.Label(bottom_frame, text="Entrez votre Prompt:").pack(side=tk.LEFT, padx=5, pady=5)
         self.prompt_entry = tk.Text(bottom_frame, height=2, width=50)
         self.prompt_entry.pack(side=tk.LEFT, padx=5, pady=5)
 
