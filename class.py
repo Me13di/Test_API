@@ -22,6 +22,7 @@ class ChatInterface:
         self.pdf_path = ""
         self.texte = ""
         self.client = OpenAI(api_key= self.api_key)
+        
 
         # Configuration de l'interface utilisateur
         self.setup_ui()
@@ -36,7 +37,7 @@ class ChatInterface:
         bottom_frame.pack(side=tk.BOTTOM, fill=tk.X)
 
         ttk.Button(bottom_frame, text="Selectionne ton PDF", command=self.select_pdf).pack(side=tk.LEFT, padx=5, pady=5)
-        self.pdf_label = ttk.Label(bottom_frame, text="Pas de PDF sélectionné")
+        self.pdf_label = ttk.Label(bottom_frame, text="Pas de PDF sélectionnée")
         self.pdf_label.pack(side=tk.LEFT, padx=5, pady=5)
 
         ttk.Button(bottom_frame, text="Image", command=self.select_image).pack(side=tk.LEFT, padx=5, pady=5)
@@ -48,7 +49,19 @@ class ChatInterface:
         self.prompt_entry.pack(side=tk.LEFT, padx=5, pady=5)
 
         ttk.Button(bottom_frame, text="Envoie la requête", command=self.send_request).pack(side=tk.LEFT, padx=5, pady=5)
+       
+        self.var = tk.IntVar()
+        ttk.Checkbutton(bottom_frame, text="Réponse vocale", command=self.checkbutton_callback, variable=self.var).pack(side=tk.LEFT, padx=5, pady=5)
+        print(self.var)
 
+    def checkbutton_callback(self):
+        if self.var.get() == 1:
+            print("Checkbutton est coché.")
+            print(self.var.get())
+            
+        else:
+            print("Checkbutton n'est pas coché.")
+            print(self.var.get())
 
     def play_audio_from_file(self, file_path):
         playsound(file_path)
@@ -68,6 +81,7 @@ class ChatInterface:
         filtered_text = ''.join(char for char in text if char in caracteres_autorises)
         return filtered_text
     
+        
     
     def encode_image(self, image_path):
         with open(image_path, "rb") as image_file:
@@ -92,7 +106,7 @@ class ChatInterface:
             model="gpt-4-vision-preview"
         else:
             model="gpt-4-1106-preview"        
-        #réquete final dont message compprend systéme (les information global sur le comportement),assistant qui comprend le pdf si il y en a un et User qui comprend le message de l'utilisateur 
+        #réquete final dont  message qui comprend: systéme (les informations global sur le comportement),assistant qui comprend le pdf si il y en a un et User qui comprend le message de l'utilisateur 
         payload = {"model": model, "messages": self.message_history.copy(), "max_tokens": 4000}
         #modifier le contenu de user_message si il y a une image 
         if self.image_path:
@@ -103,8 +117,7 @@ class ChatInterface:
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
         response_json = response.json()
         new_response = response_json["choices"][0].get("message", {}).get("content", "")
-
-        if new_response:
+        if new_response !=None and self.var.get() == 1:
             audio_response = self.client.audio.speech.create(
                 model="tts-1",
                 voice="onyx",
